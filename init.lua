@@ -18,7 +18,7 @@ return {
   },
 
   -- Set colorscheme to use
-  colorscheme = "astrodark",
+  colorscheme = "catppuccin",
 
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
@@ -51,6 +51,19 @@ return {
     -- enable servers that you already have installed without mason
     servers = {
       -- "pyright"
+      "solidity",
+    },
+    config = {
+      solidity = function()
+        return {
+          cmd = { "nomicfoundation-solidity-language-server", "--stdio" },
+          -- require("lspconfig.util").root_pattern "foundry.toml",
+          -- root_dir = require("lspconfig.util").find_git_ancestor,
+          root_dir = require("lspconfig.util").root_pattern "foundry.toml",
+          filetypes = { "solidity" },
+          single_file_support = true,
+        }
+      end,
     },
   },
 
@@ -69,6 +82,7 @@ return {
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
+    require("telescope").load_extension "project"
     -- Set up custom filetypes
     -- vim.filetype.add {
     --   extension = {
